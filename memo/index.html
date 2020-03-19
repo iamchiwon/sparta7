@@ -50,12 +50,17 @@
           중요한 링크를 저장해두고, 나중에 볼 수 있는 공간입니다
         </p>
         <hr class="my-4" />
-        <a class="btn btn-primary btn-lg" href="#" role="button"
+        <a
+          id="open_input_box"
+          class="btn btn-primary btn-lg"
+          href="#"
+          role="button"
+          onclick="onOpenBox()"
           >포스팅박스 열기</a
         >
       </div>
 
-      <form class="myForm">
+      <form id="input_form" class="myForm">
         <div class="form-group">
           <label for="exampleInputEmail1">아티클 URL</label>
           <input
@@ -201,5 +206,23 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      $("#input_form").hide();
+
+      let opened = false;
+
+      function onOpenBox() {
+        if (opened == false) {
+          $("#open_input_box").html("포스팅박스 닫기");
+          $("#input_form").show();
+          opened = true;
+        } else {
+          $("#open_input_box").html("포스팅박스 열기");
+          $("#input_form").hide();
+          opened = false;
+        }
+      }
+    </script>
   </body>
 </html>
