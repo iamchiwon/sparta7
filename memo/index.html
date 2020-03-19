@@ -45,7 +45,9 @@
   <body>
     <div class="myContent">
       <div class="jumbotron">
-        <h1 class="display-4">나홀로 링크 메모장!</h1>
+        <h1 class="display-4">
+          나홀로 링크 메모장!
+        </h1>
         <p class="lead">
           중요한 링크를 저장해두고, 나중에 볼 수 있는 공간입니다
         </p>
@@ -55,9 +57,10 @@
           class="btn btn-primary btn-lg"
           href="#"
           role="button"
-          onclick="onOpenBox()"
-          >포스팅박스 열기</a
+          onclick="toggleInputBox()"
         >
+          포스팅박스 열기
+        </a>
       </div>
 
       <form id="input_form" class="myForm">
@@ -210,18 +213,18 @@
     <script>
       $("#input_form").hide();
 
-      let opened = false;
+      let isOpened = false;
 
-      function onOpenBox() {
-        if (opened == false) {
-          $("#open_input_box").html("포스팅박스 닫기");
+      function toggleInputBox() {
+        if (!isOpened) {
           $("#input_form").show();
-          opened = true;
+          $("#open_input_box").html("포스팅박스 닫기");
         } else {
-          $("#open_input_box").html("포스팅박스 열기");
           $("#input_form").hide();
-          opened = false;
+          $("#open_input_box").html("포스팅박스 열기");
         }
+
+        isOpened = !isOpened;
       }
     </script>
   </body>
