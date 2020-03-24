@@ -17,10 +17,11 @@
       function q1() {
         $("#names-q1").html("");
 
+        let count = 5;
+
         $.ajax({
           type: "GET",
-          url:
-            "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",
+          url: `http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/${count}`,
           data: {},
           success: function(response) {
             let size = response.RealtimeCityAir.row.length;
@@ -28,7 +29,7 @@
             for (let i = 0; i < size; i++) {
               let area = response.RealtimeCityAir.row[i].MSRSTE_NM;
               let pm10 = response.RealtimeCityAir.row[i].PM10;
-              let html = `<li>${area} : ${pm10}(㎍/㎥)</li>`;
+              let html = `<li>${area} : ${pm10} (㎍/㎥)</li>`;
               $("#names-q1").append(html);
             }
           }

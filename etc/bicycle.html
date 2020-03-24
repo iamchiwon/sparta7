@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JQuery 연습하고 가기!</title>
+    <!-- JQuery를 import 합니다 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style type="text/css">
+      div.question-box {
+        margin: 10px 0 20px 0;
+      }
+      table {
+        border: 1px solid;
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        padding: 10px;
+        border: 1px solid;
+      }
+    </style>
+
+    <script>
+      let startNumber = 0;
+
+      function q1() {
+        $("#names-q1").html("");
+
+        $.ajax({
+          type: "GET",
+          url: `http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/bikeList/1/99`,
+          data: {},
+          success: function(response) {
+            let size = response.rentBikeStatus.row.length;
+
+            let end = Math.min(size, startNumber + 10);
+
+            for (let i = startNumber; i < end; i++) {
+              let rack = response.rentBikeStatus.row[i].rackTotCnt;
+              let station = response.rentBikeStatus.row[i].stationName;
+              let parked = response.rentBikeStatus.row[i].parkingBikeTotCnt;
+              let html = `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${station}</td>
+                    <td>${rack} 개</td>
+                    <td>${parked} 대</td>
+                </tr>
+              `;
+              $("#names-q1").append(html);
+            }
+
+            startNumber += 10;
+            if (startNumber > size) startNumber = 0;
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <h1>JQuery+Ajax의 조합을 연습하자!</h1>
+
+    <hr />
+
+    <div class="question-box">
+      <h2>2. 서울시 OpenAPI(실시간 따릉기 현황)를 이용하기</h2>
+      <p>모든 위치의 따릉이 현황을 보여주세요</p>
+      <p>업데이트 버튼을 누를 때마다 지웠다 새로 씌여져야 합니다.</p>
+      <button onclick="q1()">업데이트</button>
+      <table>
+        <thead>
+          <tr>
+            <td>번호</td>
+            <td>거치대 위치</td>
+            <td>거치대 수</td>
+            <td>현재 거치된 따릉이 수</td>
+          </tr>
+        </thead>
+        <tbody id="names-q1"></tbody>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JQuery 연습하고 가기!</title>
+    <!-- JQuery를 import 합니다 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style type="text/css">
+      div.question-box {
+        margin: 10px 0 20px 0;
+      }
+      div.newsbox {
+        width: 500px;
+      }
+
+      div.newsbox > div {
+        margin-top: 50px;
+        border: 1.5px solid #181818;
+        padding: 10px;
+      }
+
+      div.newsbox > div > img {
+        display: block;
+      }
+
+      div.newsbox > div > div.title-box {
+        margin: 30px 0 30px 0;
+      }
+
+      div.newsbox > div > div > a {
+        color: #181818;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      div.newsbox > div > div > h5 {
+        color: #5d5d5d;
+        margin: 4px 0 2px 0;
+      }
+
+      div.newsbox > div > p {
+        background-color: #d3e1e5;
+        padding: 5px;
+      }
+    </style>
+
+    <script>
+      function q1() {
+        let keyword = $("#input-keyword").val();
+        if (keyword == "") {
+          alert("키워드를 입력하세요!");
+          return;
+        }
+
+        // 여기에 코드를 입력하세요
+        let url = `https://newsapi.org/v2/everything?q=${keyword}&apiKey=5d6c1a1d4c0d4de1a60bc34087bb8655`;
+
+        $.ajax({
+          type: "GET",
+          url: "https://newsapi.org/v2/everything",
+          data: {
+            q: keyword,
+            apiKey: "5d6c1a1d4c0d4de1a60bc34087bb8655"
+          },
+          success: onSuccess
+        });
+      }
+
+      function onSuccess(response) {
+        $("#news").html("");
+        let size = response.articles.length;
+        for (let i = 0; i < size; i++) {
+          let article = response.articles[i];
+          let html = `
+<div>
+  <img src="${article.urlToImage}" width="100%" />
+  <div class="title-box">
+    <a href="${article.url}" target="_blank">
+      ${article.title}
+    </a>
+    <h5>${article.publishedAt} | ${article.author}</h5>
+  </div>
+  <p>${article.description}</p>
+</div>
+        `;
+          $("#news").append(html);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>JQuery+Ajax의 조합을 연습하자!</h1>
+
+    <hr />
+
+    <div class="question-box">
+      <h2>5. 뉴스 검색 API를 이용하기</h2>
+      <p>키워드에 걸맞는 뉴스를 띄워줍니다.</p>
+      <p>아무것도 입력하지 않으면, alert을 띄워주세요.</p>
+      <input type="text" id="input-keyword" placeholder="검색어를 입력하세요" />
+      <button onclick="q1()">관련 기사보기</button>
+    </div>
+    <hr />
+    <div class="newsbox" id="news"></div>
+  </body>
+</html>
