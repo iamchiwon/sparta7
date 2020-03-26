@@ -6,31 +6,27 @@
 
 # 데이터 타입
 a = 1
-b = 'A'
+b = "A"
 c = [1, 2, 3]
-d = { 'a':1, 'b':2, 'c':3}
-e = { 'data':[
-            { 'id':1, 'name':'A' },
-            { 'id':2, 'name':'B' },
-            { 'id':3, 'name':'C' }
-        ],
-      'count':3
-    }
+d = {"a": 1, "b": 2, "c": 3}
+e = {
+    "data": [{"id": 1, "name": "A"}, {"id": 2, "name": "B"}, {"id": 3, "name": "C"}],
+    "count": 3,
+}
 
 # 명령문
 1 + 1
-'a' + 'b'
-print('hello')
+"a" + "b"
+print("hello")
 
 # 조건문
 i = 100
 if i % 2 is 0:
-    print('짝수')
+    print("짝수")
 else:
-    print('홀수')
+    print("홀수")
 
 # 반복문
 for i in range(0, 100):
     if i < 10:
         print(i)
-
