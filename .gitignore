@@ -1,2 +1,3 @@
 venv
 .idea
+etc/python/__pycache__/server.cpython-37.pyc
