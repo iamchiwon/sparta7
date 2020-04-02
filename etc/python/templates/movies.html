@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JQuery 연습하고 가기!</title>
+    <!-- JQuery를 import 합니다 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style type="text/css">
+      div.question-box {
+        margin: 10px 0 20px 0;
+      }
+      table {
+        border: 1px solid;
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        padding: 10px;
+        border: 1px solid;
+      }
+    </style>
+
+    <script>
+      function q1() {
+        $("#names-q1").html("");
+
+        $.ajax({
+          type: "GET",
+          url: "/movies",
+          data: {
+            rank: $("#read_rank").val()
+          },
+          success: function(response) {
+            let size = response.length;
+
+            for (let i = 0; i < size; i++) {
+              let rank = response[i].rank;
+              let title = response[i].title;
+              let score = response[i].score;
+              let html = `
+                <tr>
+                    <td>${rank}</td>
+                    <td>${title}</td>
+                    <td>${score} 점</td>
+                </tr>
+              `;
+              $("#names-q1").append(html);
+            }
+          }
+        });
+      }
+
+      function q2() {
+        $.ajax({
+          type: "POST",
+          url: "/movies",
+          data: {
+            rank: $("#input_rank").val(),
+            title: $("#input_title").val(),
+            score: $("#input_score").val()
+          },
+          success: function(response) {
+            console.log(response);
+            q1();
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <h1>영화 목록 관리하기</h1>
+
+    <hr />
+
+    <div class="question-box">
+      <h2>추가하기</h2>
+      <div>랭크: <input id="input_rank" type="number" /></div>
+      <div>제목: <input id="input_title" type="string" /></div>
+      <div>점수: <input id="input_score" type="number" /></div>
+      <button onclick="q2()">추가하기</button>
+
+      <br />
+
+      <h2>검색하기</h2>
+      <div>랭크: <input id="read_rank" type="number" /></div>
+      <div>제목: <input id="read_title" type="string" /></div>
+      <button onclick="q1()">업데이트</button>
+
+      <br />
+
+      <h2>영화목록</h2>
+      <table>
+        <thead>
+          <tr>
+            <td>랭크</td>
+            <td>제목</td>
+            <td>점수</td>
+          </tr>
+        </thead>
+        <tbody id="names-q1"></tbody>
+      </table>
+    </div>
+  </body>
+</html>
