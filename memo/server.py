@@ -5,6 +5,9 @@ from pymongo import MongoClient
 
 
 def scrap_site(url, comment):
+    if url.startswith("http") is False:
+        url = "http://" + url
+
     # url 에 html을 가져온다. (requests)
     response = requests.get(url)
     html = response.text
@@ -56,7 +59,7 @@ def start_server():
         client = MongoClient('localhost', 27017)
         db = client.dbsparta.memo
         # db에서 모든 post를 가져온다.
-        posts = list(db.find({}, {'_id': 0}))
+        posts = list(reversed(list(db.find({}, {'_id': 0}))))
         # json으로 만들어서 내보낸다.
         return jsonify(posts)
 
