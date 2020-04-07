@@ -67,7 +67,7 @@
         <div class="form-group">
           <label for="exampleInputEmail1">아티클 URL</label>
           <input
-            type="email"
+            type="url"
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
@@ -83,7 +83,9 @@
           ></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">기사저장</button>
+        <button class="btn btn-primary" onclick="postSite()">
+          기사저장
+        </button>
       </form>
 
       <div id="card_contents" class="card-columns"></div>
@@ -112,12 +114,12 @@
       function load_contents() {
         $.ajax({
           type: "GET",
-          url: "http://spartacodingclub.shop/post",
+          url: "/post",
           data: {},
           success: function(response) {
             $("#card_contents").html("");
 
-            let articles = response["articles"];
+            let articles = response;
             for (let i = 0; i < articles.length; i++) {
               let card = make_card(articles[i]);
               $("#card_contents").append(card);
@@ -129,11 +131,13 @@
       function make_card(article) {
         let html = `
         <div class="card">
-          <img
-            src="${article.image}"
-            class="card-img-top"
-            alt="..."
-          />
+          <a href="${article.url}">
+            <img
+              src="${article.image}"
+              class="card-img-top"
+              alt="..."
+            />
+          </a>
           <div class="card-body">
             <h5 class="card-title">${article.title}</h5>
             <p class="card-text">
@@ -160,6 +164,38 @@
         }
 
         isOpened = !isOpened;
+      }
+
+      function postSite() {
+        // url에 입력된값 가져오기
+        let url = $("#exampleInputEmail1").val();
+        // 코멘트에 입력된값 가져오기
+        let comment = $("#exampleFormControlTextarea1").val();
+        // 비어있는지 확인
+        if (url == "") {
+          alert("아티클 URL을 입력해 주세요");
+          return;
+        }
+        if (comment == "") {
+          alert("간단 코멘트를 입력해 주세요");
+          return;
+        }
+        // ajax post
+        $.ajax({
+          type: "POST",
+          url: "/post",
+          data: {
+            url: url,
+            comment: comment
+          },
+          success: function(response) {
+            alert(response.message);
+            if (response.status == "ok") {
+              toggleInputBox();
+              load_contents();
+            }
+          }
+        });
       }
     </script>
   </body>
