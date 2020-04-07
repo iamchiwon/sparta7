@@ -172,13 +172,16 @@
         // 코멘트에 입력된값 가져오기
         let comment = $("#exampleFormControlTextarea1").val();
         // 비어있는지 확인
-        if (url == "") {
+        if (url.trim().length == 0) {
           alert("아티클 URL을 입력해 주세요");
           return;
         }
-        if (comment == "") {
+        if (comment.trim().length == 0) {
           alert("간단 코멘트를 입력해 주세요");
           return;
+        }
+        if (!url.startsWith("http")) {
+          url = "http://" + url;
         }
         // ajax post
         $.ajax({
@@ -189,11 +192,14 @@
             comment: comment
           },
           success: function(response) {
-            alert(response.message);
             if (response.status == "ok") {
               toggleInputBox();
               load_contents();
+
+              $("#exampleInputEmail1").val("");
+              $("#exampleFormControlTextarea1").val("");
             }
+            alert(response.message);
           }
         });
       }
